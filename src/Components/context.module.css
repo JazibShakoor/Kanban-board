@@ -1,0 +1,24 @@
+.leftHeading {
+    background-color: blue;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 20px;
+}
+
+.middleHeading {
+    background-color: yellow;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 20px;
+}
+
+.rightHeading {
+    background-color: yellowgreen;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 20px;
+}
+
+.area {
+    padding-top: 10px;
+}
