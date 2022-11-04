@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import Card from '../Ui/Card';
-import Cart from './cart';
+import Editable from './editContent'
 import classes from './context.module.css';
 
 const Context = ({ item, index, updated }) => {
-    const [cartItemShown, setCartIsShown] = useState(false);
+    const inputRef = useRef(); 
 
-    const showCartHandler = () => {
-        setCartIsShown(true) ;
-      };
-    
-      const hideCartHandler = () => {
-        setCartIsShown(false);
-      };
+    const onUpdate = () => {
+        const enteredValue = inputRef?.current.value;
+        updated(enteredValue, item.listId, item.id);
+    };
 
-      const onUpdate = (data, dataKey, itemid) => {
-        updated(data, dataKey, itemid);
-      };
+    const colorScheams = () => {
+        if (item.listId === 'Request') {
+          return classes.leftHeading;
+        } else if (item.listId === 'inProgress') {
+          return classes.middleHeading;
+        } else if (item.listId === 'done') {
+          return classes.rightHeading;
+        }
+      }
 
     return (
         <Draggable draggableId={item.id} index={index}>
@@ -26,13 +29,25 @@ const Context = ({ item, index, updated }) => {
                     snapshot={snapshot}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    >
-                        {cartItemShown && <Cart onClose={hideCartHandler} show={item.content} id={item.id} keyIndex={item.listId} updateTitle={onUpdate}/>}
+                >
                     <Card>
-                        {item.listId && item.listId === 'Request' && <div className={classes.leftHeading}></div>}
-                        {item.listId === 'inProgress' && <div className={classes.middleHeading}></div>}
-                        {item.listId === 'done' && <div className={classes.rightHeading}></div>}
-                        <p onClick={showCartHandler}>{item.content}</p>
+                        <div className={colorScheams()}></div>
+                        <Editable
+                            text={item.content}
+                            placeholder="Write a task name"
+                            childRef={inputRef}
+                            type="input"
+                        >
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                name="task"
+                                placeholder="Write a task name"
+                                defaultValue={item.content}
+                                onChange={onUpdate}
+                                
+                            />
+                        </Editable>
                     </Card>
                 </div>
             )}

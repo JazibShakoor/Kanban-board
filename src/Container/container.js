@@ -23,9 +23,11 @@ const Container = () => {
       return [removed, result];
     };
     
-    const addToList = (list, index, element) => {
+    const addToList = (list, index, element, newId) => {
       const result = Array.from(list);
+      console.log(result)
       result.splice(index, 0, element);
+      result[index].listId = newId
       return result;
     };
 
@@ -50,10 +52,12 @@ const Container = () => {
         );
         listCopy[result.source.droppableId] = newSourceList;
         const destinationList = listCopy[result.destination.droppableId];
+  
         listCopy[result.destination.droppableId] = addToList(
           destinationList,
           result.destination.index,
-          removedElement
+          removedElement,
+          destinationList[0].listId
         );
 
         setListItems(listCopy);
@@ -61,11 +65,13 @@ const Container = () => {
 
     const onUpdatedArrayValue = (items, dataKey, itemid) => {
       const newArray = listItems[dataKey]
+      console.log(newArray)
       const newUpdateArray = {...listItems}
   
       const existingItemIndex = newArray.findIndex(
           (item) => item.id === itemid
         );
+        console.log(existingItemIndex)
         const existingItem = newArray[existingItemIndex];
     
         if (existingItem) {
@@ -76,13 +82,13 @@ const Container = () => {
     
           newArray[existingItemIndex] = updatedItem;
           newUpdateArray[existingItem] = newArray;
-          console.log(newUpdateArray)
+          console.log(newArray)
           setListItems(newUpdateArray);
         }    
     };
 
     return (
-        <div className={classes.flexbox} id='result'>
+        <div className={classes.flexbox}>
             <DragDropContext onDragEnd={handleOnDragEnd} onBeforeDragStart={handleOnDragEnd}>
                {lists.map((listKey) => (
                 <DraggableElement 

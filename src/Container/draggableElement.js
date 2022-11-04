@@ -12,9 +12,10 @@ const DraggableElement = (props) => {
 
     const onUpdatedData = (updatedArray, dataKey, itemid) => {
         props.array(updatedArray, dataKey, itemid);
+        console.log(updatedArray)
     };
 
-    function example() {
+    const colorScheams = () => {
         if (props.id === 'Request') {
           return classes.mainHeading;
         } else if (props.id === 'inProgress') {
@@ -28,7 +29,7 @@ const DraggableElement = (props) => {
     return (
         <div className={classes.innerBox}>
             
-                <div className={example()}>
+                <div className={colorScheams()}>
                 <h3>{props.id}</h3>
                 </div>
             
