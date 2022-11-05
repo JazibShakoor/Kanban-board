@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { X } from "react-feather";
 import classes from './editTable.module.css';
 
-
-
 const Editable = (props) => {
   const [isEditable, setIsEditable] = useState(false);
   const [inputText, setInputText] = useState(props.defaultValue || "");

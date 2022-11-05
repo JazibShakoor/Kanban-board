@@ -25,9 +25,8 @@ const Container = () => {
     
     const addToList = (list, index, element, newId) => {
       const result = Array.from(list);
-      console.log(result)
       result.splice(index, 0, element);
-      result[index].listId = newId
+      if (newId != null) {result[index].listId = newId};
       return result;
     };
 
@@ -57,7 +56,7 @@ const Container = () => {
           destinationList,
           result.destination.index,
           removedElement,
-          destinationList[0].listId
+          destinationList[0]?.listId || null
         );
 
         setListItems(listCopy);
@@ -82,7 +81,6 @@ const Container = () => {
     
           newArray[existingItemIndex] = updatedItem;
           newUpdateArray[existingItem] = newArray;
-          console.log(newArray)
           setListItems(newUpdateArray);
         }    
     };
