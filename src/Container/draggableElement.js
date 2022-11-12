@@ -15,21 +15,17 @@ const DraggableElement = (props) => {
     console.log(updatedArray)
   };
 
-  const colorScheams = () => {
-    if (props.id === 'Request') {
-      return classes.mainHeading;
-    } else if (props.id === 'inProgress') {
-      return classes.middleHeading;
-    } else if (props.id === 'done') {
-      return classes.sideHeading;
-    }
+  const colorScheams = {
+    Request : classes.mainHeading,
+    inProgress : classes.middleHeading,
+    done : classes.sideHeading
   }
 
 
   return (
     <div className={classes.innerBox}>
 
-      <div className={colorScheams()}>
+      <div className={colorScheams[props.id]}>
         <h3>{props.id}</h3>
       </div>
       <Droppable droppableId={`${props.id}`}>
@@ -44,7 +40,7 @@ const DraggableElement = (props) => {
               onSubmit={addItem}
             />
             {props.elements.map((item, index) => (
-              <Context key={item.id} item={item} index={index} updated={onUpdatedData} />
+              <Context key={item.id} listid={props.id} item={item} index={index} updated={onUpdatedData} />
             ))}
             {provided.placeholder}
           </div>

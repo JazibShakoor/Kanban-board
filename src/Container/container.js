@@ -18,15 +18,16 @@ const Container = () => {
     }, [listItems])
 
     const removeFromList = (list, index) => {
+      // Array.from is a JavaScript method
       const result = Array.from(list);
       const [removed] = result.splice(index, 1);
       return [removed, result];
     };
     
-    const addToList = (list, index, element, newId) => {
+    const addToList = (list, index, element) => {
+      // Array.from is a JavaScript method
       const result = Array.from(list);
       result.splice(index, 0, element);
-      if (newId != null) {result[index].listId = newId};
       return result;
     };
 
@@ -43,7 +44,7 @@ const Container = () => {
     function handleOnDragEnd(result) {
         if (!result.destination) return;
         const listCopy = {...listItems} ;
-
+       
         const sourceList = listCopy[result.source.droppableId];
         const [removedElement, newSourceList] = removeFromList(
           sourceList,
@@ -51,27 +52,26 @@ const Container = () => {
         );
         listCopy[result.source.droppableId] = newSourceList;
         const destinationList = listCopy[result.destination.droppableId];
-  
+         
         listCopy[result.destination.droppableId] = addToList(
           destinationList,
           result.destination.index,
           removedElement,
-          destinationList[0]?.listId || null
         );
 
         setListItems(listCopy);
     }
 
     const onUpdatedArrayValue = (items, dataKey, itemid) => {
-      const newArray = listItems[dataKey]
-      console.log(newArray)
-      const newUpdateArray = {...listItems}
+      const newObj = listItems[dataKey]
+      
+      const newUpdateObj = {...listItems}
   
-      const existingItemIndex = newArray.findIndex(
+      const existingItemIndex = newObj.findIndex(
           (item) => item.id === itemid
         );
-        console.log(existingItemIndex)
-        const existingItem = newArray[existingItemIndex];
+        
+        const existingItem = newObj[existingItemIndex];
     
         if (existingItem) {
           const updatedItem = {
@@ -79,9 +79,9 @@ const Container = () => {
             content: items,
           };
     
-          newArray[existingItemIndex] = updatedItem;
-          newUpdateArray[existingItem] = newArray;
-          setListItems(newUpdateArray);
+          newObj[existingItemIndex] = updatedItem;
+          newUpdateObj[existingItem] = newObj;
+          setListItems(newUpdateObj);
         }    
     };
 

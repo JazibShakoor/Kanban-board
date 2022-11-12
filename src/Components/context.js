@@ -4,24 +4,19 @@ import Card from '../Ui/Card';
 import Editable from './editContent'
 import classes from './context.module.css';
 
-const Context = ({ item, index, updated }) => {
+const Context = ({ item, index, updated, listid }) => {
     const inputRef = useRef(); 
-
     const onUpdate = () => {
         const enteredValue = inputRef?.current.value;
-        updated(enteredValue, item.listId, item.id);
+        updated(enteredValue, listid, item.id);
     };
-
-    const colorScheams = () => {
-        if (item.listId === 'Request') {
-          return classes.leftHeading;
-        } else if (item.listId === 'inProgress') {
-          return classes.middleHeading;
-        } else if (item.listId === 'done') {
-          return classes.rightHeading;
-        }
+    
+    const colorScheams = {
+        Request : classes.leftHeading,
+        inProgress : classes.middleHeading,
+        done : classes.rightHeading
       }
-
+    
     return (
         <Draggable draggableId={item.id} index={index}>
             {(provided, snapshot) => (
@@ -31,7 +26,7 @@ const Context = ({ item, index, updated }) => {
                     {...provided.dragHandleProps}
                 >
                     <Card>
-                        <div className={colorScheams()}></div>
+                        <div className={colorScheams[listid]}></div>
                         <Editable
                             text={item.content}
                             placeholder="Write a task name"
